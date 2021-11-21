@@ -1,0 +1,10 @@
+#pupi_coma_export_title .qa-form-tall-label,
+#pupi_coma_import_title .qa-form-tall-label {
+    font-weight: bold;
+    font-size: 110%;
+}
+
+.pupi_coma_code {
+    font-family: Consolas, monospace;
+    font-weight: bold;
+}
