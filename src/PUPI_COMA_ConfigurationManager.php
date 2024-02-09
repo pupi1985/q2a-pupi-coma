@@ -8,6 +8,11 @@ class PUPI_COMA_ConfigurationManager
     const FIELD_QA_CONFIG = 'qa_config';
     const FIELD_TABLE_ROW_COUNTS = 'table_row_counts';
 
+    const SIMILAR_VERSIONS = [
+        '1.8.7' => '1.8.6',
+        '1.8.8' => '1.8.6',
+    ];
+
     /** @var string */
     private $directory;
 
@@ -160,6 +165,8 @@ class PUPI_COMA_ConfigurationManager
 
     public function loadVersionConfiguration(string $q2aVersion)
     {
+        $q2aVersion = self::SIMILAR_VERSIONS[$q2aVersion] ?? $q2aVersion;
+
         $versionToUse = $this->getConfigurationVersionToUse($q2aVersion);
 
         $allVersionsPath = $this->directory . 'src/' . PUPI_COMA_Constants::VERSIONS_DIRECTORY_PATH . '/';
@@ -171,6 +178,8 @@ class PUPI_COMA_ConfigurationManager
 
     public function isVersionSupported(string $q2aVersion)
     {
+        $q2aVersion = self::SIMILAR_VERSIONS[$q2aVersion] ?? $q2aVersion;
+
         $versionToUse = $this->getConfigurationVersionToUse($q2aVersion);
 
         return version_compare($q2aVersion, $versionToUse, '<=');
@@ -194,8 +203,6 @@ class PUPI_COMA_ConfigurationManager
             return version_compare($v1, $v2);
         });
 
-        $versionToUse = reset($versions);
-
         foreach ($versions as $version) {
             $versionToUse = $version;
             if (version_compare($q2aVersion, $version, '<=')) {
@@ -203,6 +210,6 @@ class PUPI_COMA_ConfigurationManager
             }
         }
 
-        return $versionToUse;
+        return $versionToUse ?? reset($version);
     }
 }
